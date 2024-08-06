@@ -1,6 +1,6 @@
 documentation:
-  title: title
-  description: descr
+  title: CESM2_evaluation
+  description: Evaluates stratospheric/tropospheric coupling in CESM2 by analyzing the probability of the phase of Southern Annula Mode in summer (DJF) being positive or negative conditioned on the date of the stratospheric polar vortex breakdown date
   authors:
   - cos_josep
 
@@ -145,5 +145,5 @@ diagnostics:
 
     scripts:
       strat_trop_coupling:
-        script: /home/jmindlin/CESM2_evaluation/scripts/strat_trop_coupling.py
+        script: ~/CESM2_evaluation/scripts/strat_trop_coupling.py
 
