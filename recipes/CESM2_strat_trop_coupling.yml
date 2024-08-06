@@ -1,0 +1,149 @@
+documentation:
+  title: title
+  description: descr
+  authors:
+  - cos_josep
+
+datasets_Amon: &dAmon
+- dataset: CESM2
+  ensemble: r2i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r3i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r4i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r5i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r6i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r7i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r8i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r9i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r11i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+- dataset: CESM2
+  ensemble: r1i1p1f1
+  exp:
+  - historical
+  grid: gn
+  project: CMIP6
+preprocessors:
+  general_preproc:
+    extract_season:
+      season: djf
+    seasonal_statistics:
+      operator: mean
+      seasons:
+      - djf
+  general_preproc_spv:
+    extract_season:
+      season: ond
+    seasonal_statistics:
+      operator: mean
+      seasons:
+      - ond
+  Amon_regrid:
+    regrid:
+      scheme:
+        reference: esmf_regrid.schemes:ESMFAreaWeighted
+      target_grid: 2.5x2.5
+  SPV:
+    regrid:
+      scheme:
+        reference: esmf_regrid.schemes:ESMFAreaWeighted
+      target_grid: 2.5x2.5
+    extract_region:
+      start_latitude: -60
+      end_latitude: -50
+      start_longitude: 0
+      end_longitude: 360
+    area_statistics:
+      operator: mean
+    extract_levels:
+      levels:
+      - 5000.0
+      scheme: linear
+  PSL:
+    extract_season:
+      season: djf
+    seasonal_statistics:
+      operator: mean
+      seasons:
+      - djf
+    regrid:
+      scheme:
+        reference: esmf_regrid.schemes:ESMFAreaWeighted
+      target_grid: 2.5x2.5
+
+  default: {}
+diagnostics:
+  strat_trop_indices:
+    variables:
+      ua50_spv:
+        exp:
+        - historical
+        mip: day
+        preprocessor: SPV
+        project: CMIP6
+        short_name: ua
+        start_year: &start_year 1860
+        end_year: &end_year 2014
+        additional_datasets: *dAmon
+        supplementary_variables:
+          - short_name: areacella
+            skip: true
+      psl:
+        exp:
+        - historical
+        mip: Amon
+        preprocessor: PSL
+        project: CMIP6
+        start_year: *start_year
+        end_year: *end_year
+        additional_datasets: *dAmon
+        supplementary_variables:
+          - short_name: areacella
+            skip: true
+
+    scripts:
+      strat_trop_coupling:
+        script: /home/jmindlin/CESM2_evaluation/scripts/strat_trop_coupling.py
+
